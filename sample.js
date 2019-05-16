@@ -1,20 +1,20 @@
-<form action='https://harshnatu.convstaging.com/index.php?option=com_validator' method='post' id='the-form'>
-	<table class='table-blue'>
+<form action='#' method='post' id='the-form'>
+	<table>
 		<tr>
 			<td>
-				<label for='pan'>PAN Number</label>
+				<label for='pan'>PAN Number<sup style='color: red; font-size: 18px;'>*</sup></label>
 				<input type="text" name="pancard" id='pan' class='input-box' placeholder="PAN Card Number">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for='aadc'>Aadhar Number</label>
+				<label for='aadc'>Aadhar Number<sup style='color: red; font-size: 18px;'>*</sup></label>
 				<input type="number" name="aadhar" id='aadc' placeholder="Aadhar Card Number">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for='mob'>Mobile Number</label>
+				<label for='mob'>Mobile Number<sup style='color: red; font-size: 18px;'>*</sup></label>
 				<input type="number" name="mobile" id='mob' placeholder="Mobile Number">
 			</td>
 		</tr>
@@ -22,110 +22,203 @@
 	<button class='btn btn-success validateBtn' type='button'>Validate</button>
 </form>
 
+<br/>
+<div class='error-area'>
+	<ul class='errors-ul'>
+		
+	</ul>
+</div>
+
+<!-- JS Script starts here -->
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-
-/*		$('#pan').attr(required:'required');
-		$('#aadc').attr(required:'required');
-		$('#mob').attr(required:'required');
-*/
-
+		
+		/* Function to initialize the value of 'errors' as blank */
+		function init_err()
+		{
+			errors = '';
+		}
+		
+		/*
+		** Function to validate three fields from the form - PAN card Number, Aadhar Card Number, Mobile Number
+		**
+		** @params pan
+		**	PAN card number input in form.
+		** 
+		** @params aadc
+		**	Aadhar card number input in form.
+		**
+		** @params mob
+		**	Mobile number input in form.
+		**
+		** return - Success msg as an alert box.
+		*/
 		function validator(pan, aadc, mob)
 		{
-			var panlen = (''+pan).length;
-			var aadlen = (''+aadc).length;
-			var moblen = (''+mob).length;
+			var panlen = (''+pan).length;		// Count length of pan number input.
+			var aadlen = (''+aadc).length;		// Count length of aadhar number input.
+			var moblen = (''+mob).length;		// Count length of mobile number input.
 
-			var panOK = 0;
-			var aadOK = 0;
-			var mobOK = 0;
+			var panOK = 0;				// Success flag for pan number input.
+			var aadOK = 0;				// Success flag for aadhar number input.
+			var mobOK = 0;				// Success flag for mobile number input.
 
-			if(pan=="")
+			init_err();
+			
+			// Validation checks for PAN card number input
+			if(pan=="")	// Check if input is blank.
 			{
-				alert('PAN Number field cannot be empty!');
+				jQuery('#pan').focus();
+				jQuery('#pan').css("border", "1px solid red");				
+				jQuery("[class^='pan-']").remove();
+				errors += '<li class="pan-emp">PAN Number field cannot be empty!</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
-			else if(panlen != 10)
+			else if(panlen != 10)	// Check if length of PAN card input is equal to 10 or not.
 			{
-				alert('PAN Number should of length : 10');
+				jQuery('#pan').focus();
+				jQuery('#pan').css("border", "1px solid red");
+				jQuery("[class^='pan-']").remove();
+				errors += '<li class="pan-len">PAN Number should of length : 10</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
 			else
 			{
+				// Regex to check pattern/format of PAN number input.
 				var panRegex = /^([A-Z]{5})([0-9]{4})([A-Z]{1})$/;
 
-				if(pan.search(panRegex) == -1)
+				if(pan.search(panRegex) == -1)	// Check if regex pattern is matching in input string.
 				{
-					alert('Pan number is invalid. Please enter pan number in format : XXXXX0000X');
+					jQuery('#pan').focus();
+					jQuery('#pan').css("border", "1px solid red");
+					jQuery("[class^='pan-']").remove();
+					errors += '<li class="pan-format">PAN number is invalid. Please enter pan number in format : XXXXX0000X</li>';
+					jQuery('.errors-ul').append(errors);
+					init_err();
 				}
 				else
 				{
+					jQuery("[class^='pan-']").remove();
+					jQuery('#pan').css("border", "1px solid lime");
 					panOK = 1;
 				}
 			}
-
-			if(aadc=="")
+			
+			
+			// Validation checks for Aadhar card number input
+			if(aadc=="")	// Check if input is blank.
 			{
-				alert('Aadhar Number field cannot be empty!');
+				jQuery('#aadc').focus();
+				jQuery('#aadc').css("border", "1px solid red");
+				jQuery("[class^='aad-']").remove();
+				errors += '<li class="aad-emp">Aadhar Number field cannot be empty!</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
-			else if(isNaN(aadc))
+			else if(isNaN(aadc)) // Check if Aadhar card input is numeric.
 			{
-				alert('Aadhar number should be numeric.');
+				jQuery('#aadc').focus();
+				jQuery('#aadc').css("border", "1px solid red");
+				jQuery("[class^='aad-']").remove();
+				errors += '<li class="aad-num">Aadhar number should be numeric.</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
-			else if(aadlen != 12)
+			else if(aadlen != 12)	// Check if length of Aadhar card input is equal to 10 or not.
 			{
-				alert('Aadhar number should be of length : 12.');
+				jQuery('#aadc').focus();
+				jQuery('#aadc').css("border", "1px solid red");
+				jQuery("[class^='aad-']").remove();
+				errors += '<li class="aad-len">Aadhar number should be of length : 12.</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
 			else
 			{
+				jQuery("[class^='aad-']").remove();
+				jQuery('#aadc').css("border", "1px solid lime");
 				aadOK = 1;
 			}
 
-
-			if(mob=="")
+			
+			// Validation checks for mobile number input
+			if(mob=="")	// Check if input is blank.
 			{
-				alert('Mobile number field cannot be empty!');
+				jQuery('#mob').focus();
+				jQuery('#mob').css("border", "1px solid red");
+				jQuery("[class^='mob-']").remove();
+				errors += '<li class="mob-emp">Mobile number field cannot be empty!</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
-			else if(isNaN(mob))
+			else if(isNaN(mob))	// Check if mobile number input is numeric.
 			{
-				alert('Mobile number should be numeric.');
+				jQuery('#mob').focus();
+				jQuery('#mob').css("border", "1px solid red");
+				jQuery("[class^='mob-']").remove();
+				errors += '<li class="mob-num">Mobile number should be numeric.</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
-			else if(moblen != 10)
+			else if(moblen != 10)	// Check if length of mobile number input is equal to 10 or not.
 			{
-				alert('Mobile number should be of length : 10.');
+				jQuery('#mob').focus();
+				jQuery('#mob').css("border", "1px solid red");
+				jQuery("[class^='mob-']").remove();
+				errors += '<li class="mob-len">Mobile number should be of length : 10.</li>';
+				jQuery('.errors-ul').append(errors);
+				init_err();
 			}
 			else
 			{
+				// Regex to check pattern/format of mobile number input.
 				var mobRegex = /^([7|8|9]{1})([0-9]{9})$/;
-				if(mob.search(mobRegex) == -1)
+				
+				if(mob.search(mobRegex) == -1)	// Check if regex pattern is matching in input string.
 				{
-					alert('Mobile number should always start from \'7\', \'8\' or \'9\'');
+					jQuery('#mob').focus();
+					jQuery('#mob').css("border", "1px solid red");
+					jQuery("[class^='mob-']").remove();
+					errors += '<li class="mob-format">Mobile number should always start from \'7\', \'8\' or \'9\'</li>';
+					jQuery('.errors-ul').append(errors);
+					init_err();
 				}
 				else
 				{
+					jQuery("[class^='mob-']").remove();
+					jQuery('#mob').css("border", "1px solid lime");
 					mobOK = 1;
 				}
 			}
 
-			if((panOK == 1) && (aadOK == 1) && (mobOK == 1))
+			if((panOK == 1) && (aadOK == 1) && (mobOK == 1))	// If all the flags are '1' i.e. successful.
 			{
-				panOK = 0;
+				// Initialize flags to '0'
+				panOK = 0;	
 				aadOK = 0;
 				mobOK = 0;
 
-				return(alert('Form successfully validated...'));
+				// empty all the error 'list items' from the 'errors-ul' list tag.
+				jQuery('.errors-ul').empty();
+
+				return(alert('Form successfully validated...'));	// Throw  an success alert box.
 			}
 		}
 
-
+		
+	    /* "click" event handling for form's submit button */
 	    jQuery(document).on('click','.validateBtn', function(e){
 	    	
+		//Processing the input by 'trimming' the leading and trailing 'spaces'. 
 	    	var pan = jQuery('#pan').val().trim();
 	    	var aadhar = jQuery('#aadc').val().trim();
 	    	var mobile = jQuery('#mob').val().trim();
-
+	
+		// Call to 'validator' function
 	    	validator(pan, aadhar, mobile);
 	    });
-	
-
 
 	});
 </script>
