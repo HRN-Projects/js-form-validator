@@ -3,18 +3,24 @@
 		<tr>
 			<td>
 				<label for='pan'>PAN Number<sup style='color: red; font-size: 18px;'>*</sup></label>
+			</td>
+			<td>
 				<input type="text" name="pancard" id='pan' class='input-box' placeholder="PAN Card Number">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for='aadc'>Aadhar Number<sup style='color: red; font-size: 18px;'>*</sup></label>
+			</td>
+			<td>
 				<input type="number" name="aadhar" id='aadc' placeholder="Aadhar Card Number">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for='mob'>Mobile Number<sup style='color: red; font-size: 18px;'>*</sup></label>
+			</td>
+			<td>
 				<input type="number" name="mobile" id='mob' placeholder="Mobile Number">
 			</td>
 		</tr>
@@ -29,7 +35,7 @@
 	</ul>
 </div>
 
-<!-- JS Script starts here -->
+<!-- JS starts here -->
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		
@@ -86,7 +92,7 @@
 			}
 			else
 			{
-				// Regex to check pattern/format of PAN number input.
+				// Regex to check pattern / format of PAN number input.
 				var panRegex = /^([A-Z]{5})([0-9]{4})([A-Z]{1})$/;
 
 				if(pan.search(panRegex) == -1)	// Check if regex pattern is matching in input string.
@@ -173,7 +179,7 @@
 			}
 			else
 			{
-				// Regex to check pattern/format of mobile number input.
+				// Regex to check pattern / format of mobile number input.
 				var mobRegex = /^([7|8|9]{1})([0-9]{9})$/;
 				
 				if(mob.search(mobRegex) == -1)	// Check if regex pattern is matching in input string.
@@ -200,10 +206,10 @@
 				aadOK = 0;
 				mobOK = 0;
 
-				// empty all the error 'list items' from the 'errors-ul' list tag.
+				// empty all the error list items (li) tags within the '.errors-ul' class.
 				jQuery('.errors-ul').empty();
 
-				return(alert('Form successfully validated...'));	// Throw  an success alert box.
+				return(alert('Form successfully validated...'));	// Trigger a success alert box.
 			}
 		}
 
@@ -211,7 +217,7 @@
 	    /* "click" event handling for form's submit button */
 	    jQuery(document).on('click','.validateBtn', function(e){
 	    	
-		//Processing the input by 'trimming' the leading and trailing 'spaces'. 
+		//Processing the input by cleaning the strings and trim all the leading and trailing 'blankspaces'. 
 	    	var pan = jQuery('#pan').val().trim();
 	    	var aadhar = jQuery('#aadc').val().trim();
 	    	var mobile = jQuery('#mob').val().trim();
